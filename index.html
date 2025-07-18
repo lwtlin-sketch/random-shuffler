@@ -3,123 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>亂數排列產生器</title>
-    <!-- CSS 樣式：讓網頁看起來更美觀 -->
+    <!-- 1. 修改標題 -->
+    <title>順(二)小活動</title>
     <style>
+        /* 基本樣式 */
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f2f5;
+            background-color: #f0f8ff; /* 淡藍色背景 */
+            color: #333;
+            text-align: center;
         }
         .container {
-            text-align: center;
-            background-color: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
         }
-        h1 {
-            color: #333;
+        /* 遊戲控制區樣式 */
+        .controls {
+            margin-bottom: 30px;
         }
-        input[type="number"] {
-            padding: 10px;
-            font-size: 16px;
-            width: 80px;
-            text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin: 20px 10px;
+        #timer {
+            font-size: 3em;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 10px 0;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
+        #startButton {
+            padding: 15px 30px;
+            font-size: 1.5em;
             color: white;
-            background-color: #007bff;
+            background-color: #5cb85c;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        button:hover {
-            background-color: #0056b3;
+        #startButton:hover {
+            background-color: #4cae4c;
         }
-        #result {
-            margin-top: 25px;
-            font-size: 24px;
+        /* 遊戲區域樣式 */
+        .game-area {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+        }
+        .team-column {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 45%;
+        }
+        .team-column h2 {
+            font-size: 2em;
+            color: #0275d8;
+        }
+        .team-column .score {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .task-list li {
+            /* 1. 亂數文字變大 */
+            font-size: 2.5em; 
             font-weight: bold;
-            color: #28a745;
-            min-height: 30px; /* 確保結果區域有固定高度 */
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f7f7f7;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .error {
-            color: red; /* 錯誤訊息使用紅色 */
+        /* 核取方塊樣式 */
+        .task-list input[type="checkbox"] {
+            width: 30px;
+            height: 30px;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+        /* 遊戲結束彈出視窗 */
+        .modal {
+            display: none; /* 預設隱藏 */
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            animation: fadeIn 0.5s;
+        }
+        .modal-content h3 {
+            font-size: 2.5em;
+        }
+        .modal-content p {
+            font-size: 1.5em;
+        }
+        .animation {
+            font-size: 5em;
+            margin: 20px 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>亂數排列產生器</h1>
-        <p>請輸入一個正整數（例如：5），然後點擊按鈕。</p>
-        <div>
-            <!-- 數字輸入框 -->
-            <label for="numberInput">從 1 到</label>
-            <input type="number" id="numberInput" value="5" min="1">
-            
-            <!-- 執行按鈕 -->
-            <button id="generateButton">產生亂數排列</button>
+        <!-- 1. 標題修改 -->
+        <h1>順(二)小活動</h1>
+
+        <!-- 控制區：開始按鈕和計時器 -->
+        <div class="controls">
+            <button id="startButton">開始活動</button>
+            <div id="timer">05:00</div>
         </div>
-        
-        <!-- 顯示結果的區域 -->
-        <div id="result"></div>
+
+        <!-- 2. 遊戲區：分成兩組 -->
+        <div class="game-area">
+            <!-- 組別一：順服神 -->
+            <div class="team-column">
+                <h2>順服神</h2>
+                <p class="score">完成次數: <span id="team1-score">0</span></p>
+                <ul class="task-list" id="team1-list">
+                    <!-- 亂數排列會顯示在這裡 -->
+                </ul>
+            </div>
+            <!-- 組別二：順服人 -->
+            <div class="team-column">
+                <h2>順服人</h2>
+                <p class="score">完成次數: <span id="team2-score">0</span></p>
+                <ul class="task-list" id="team2-list">
+                    <!-- 亂數排列會顯示在這裡 -->
+                </ul>
+            </div>
+        </div>
     </div>
 
-    <!-- JavaScript 功能：處理網頁的互動邏輯 -->
+    <!-- 5. 遊戲結束的彈出視窗 -->
+    <div id="result-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="result-title"></h3>
+            <div id="result-animation" class="animation"></div>
+            <p id="result-message"></p>
+        </div>
+    </div>
+
     <script>
-        // 1. 取得我們需要的網頁元素
-        const numberInput = document.getElementById('numberInput');
-        const generateButton = document.getElementById('generateButton');
-        const resultDiv = document.getElementById('result');
+        // --- 遊戲設定 ---
+        const GAME_DURATION_SECONDS = 300; // 3. 遊戲時間：5分鐘
+        const NUMBER_RANGE = 5; // 亂數範圍 1-5
 
-        // 2. 當按鈕被點擊時，要執行的功能
-        generateButton.addEventListener('click', function() {
-            // 2.1 清除上一次的結果和錯誤樣式
-            resultDiv.textContent = '';
-            resultDiv.classList.remove('error');
+        // --- 取得網頁元素 ---
+        const startButton = document.getElementById('startButton');
+        const timerDisplay = document.getElementById('timer');
+        const team1ScoreDisplay = document.getElementById('team1-score');
+        const team2ScoreDisplay = document.getElementById('team2-score');
+        const team1List = document.getElementById('team1-list');
+        const team2List = document.getElementById('team2-list');
+        const resultModal = document.getElementById('result-modal');
+        const resultTitle = document.getElementById('result-title');
+        const resultAnimation = document.getElementById('result-animation');
+        const resultMessage = document.getElementById('result-message');
+        
+        // --- 遊戲狀態變數 ---
+        let timerInterval;
+        let timeLeft = GAME_DURATION_SECONDS;
+        let scores = { team1: 0, team2: 0 };
+        let gameActive = false;
 
-            // 2.2 從輸入框取得數字，並轉換成整數
-            const maxNumber = parseInt(numberInput.value, 10);
+        // --- 核心功能函式 ---
 
-            // 2.3 檢查輸入是否為有效的正整數
-            if (isNaN(maxNumber) || maxNumber <= 0) {
-                resultDiv.textContent = '請輸入一個大於 0 的有效數字！';
-                resultDiv.classList.add('error'); // 加入錯誤樣式
-                return; // 中斷執行
+        // 函式：開始遊戲
+        function startGame() {
+            if (gameActive) return; // 如果遊戲已經開始，就不要再執行
+            gameActive = true;
+
+            // 重設分數和顯示
+            scores = { team1: 0, team2: 0 };
+            team1ScoreDisplay.textContent = '0';
+            team2ScoreDisplay.textContent = '0';
+            resultModal.style.display = 'none';
+
+            // 產生第一組亂數
+            const initialNumbers = shuffleArray(createNumberArray(NUMBER_RANGE));
+            
+            // 3. 兩組顯示同樣的亂數
+            renderTaskList('team1', initialNumbers);
+            renderTaskList('team2', initialNumbers);
+
+            // 隱藏開始按鈕
+            startButton.style.display = 'none';
+
+            // 3. 開始倒數計時
+            startTimer();
+        }
+
+        // 函式：啟動計時器
+        function startTimer() {
+            timeLeft = GAME_DURATION_SECONDS;
+            updateTimerDisplay(); // 先顯示一次，避免延遲
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        // 函式：更新計時器顯示 (將秒數格式化成 mm:ss)
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        // 函式：建立數字陣列 (例如：[1, 2, 3, 4, 5])
+        function createNumberArray(max) {
+            const arr = [];
+            for (let i = 1; i <= max; i++) {
+                arr.push(i);
             }
+            return arr;
+        }
 
-            // 2.4 建立一個從 1 到 maxNumber 的數字陣列
-            // 例如 maxNumber 是 5，會產生 [1, 2, 3, 4, 5]
-            let numbers = [];
-            for (let i = 1; i <= maxNumber; i++) {
-                numbers.push(i);
-            }
-
-            // 2.5 執行「費雪-葉慈洗牌演算法 (Fisher-Yates Shuffle)」來打亂陣列順序
-            // 這是目前公認最公平的洗牌演算法
-            for (let i = numbers.length - 1; i > 0; i--) {
-                // 產生一個從 0 到 i (包含 i) 的隨機索引 j
+        // 函式：費雪-葉慈洗牌演算法
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                // 交換索引 i 和 j 的元素位置
-                [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // 函式：在畫面上渲染任務列表
+        function renderTaskList(teamId, numbers) {
+            const listElement = document.getElementById(`${teamId}-list`);
+            listElement.innerHTML = ''; // 清空舊列表
+
+            numbers.forEach(num => {
+                const listItem = document.createElement('li');
+                // 3. 加上核取方塊
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.dataset.team = teamId; // 用來識別是哪一隊的
+                checkbox.addEventListener('change', handleCheckboxChange);
+
+                const text = document.createTextNode(num);
+                
+                listItem.appendChild(checkbox);
+                listItem.appendChild(text);
+                listElement.appendChild(listItem);
+            });
+        }
+
+        // 函式：處理核取方塊的點擊事件
+        function handleCheckboxChange(event) {
+            if (!gameActive) {
+                event.target.checked = false; // 遊戲結束就不能再勾選
+                return;
+            }
+            
+            const teamId = event.target.dataset.team;
+            const listElement = document.getElementById(`${teamId}-list`);
+            const allCheckboxes = listElement.querySelectorAll('input[type="checkbox"]');
+            
+            // 檢查是否全部都勾選了
+            const allChecked = Array.from(allCheckboxes).every(checkbox => checkbox.checked);
+
+            // 4. 如果全部勾選完成
+            if (allChecked) {
+                // 更新分數
+                scores[teamId]++;
+                document.getElementById(`${teamId}-score`).textContent = scores[teamId];
+
+                // 產生新的亂數列表
+                const newNumbers = shuffleArray(createNumberArray(NUMBER_RANGE));
+                renderTaskList(teamId, newNumbers);
+            }
+        }
+
+        // 函式：結束遊戲
+        function endGame() {
+            gameActive = false;
+            clearInterval(timerInterval); // 停止計時器
+            timerDisplay.textContent = '00:00';
+            startButton.style.display = 'block'; // 顯示開始按鈕以便重玩
+
+            // 5. 判斷贏家
+            let winner = '';
+            if (scores.team1 > scores.team2) {
+                winner = '順服神';
+            } else if (scores.team2 > scores.team1) {
+                winner = '順服人';
+            } else {
+                winner = '平手';
             }
 
-            // 2.6 將打亂後的陣列轉換成用逗號和空格分隔的字串，並顯示在網頁上
-            resultDiv.textContent = numbers.join(', ');
-        });
-    </script>
+            // 5. 顯示結果和鼓勵的話
+            if (winner === '平手') {
+                resultTitle.textContent = "平分秋色！";
+                resultAnimation.textContent = '🤝';
+                resultMessage.textContent = `兩組都完成了 ${scores.team1} 次！大家都好棒，繼續努力！`;
+            } else {
+                const winnerTeamName = winner;
+                const loserTeamName = (winner === '順服神') ? '順服人' : '順服神';
+                const winnerScore = (winner === '順服神') ? scores.team1 : scores.team2;
+                const loserScore = (winner === '順服神') ? scores.team2 : scores.team1;
 
+                resultTitle.textContent = `恭喜 ${winnerTeamName} 獲勝！`;
+                resultAnimation.textContent = '🏆🎉';
+                resultMessage.innerHTML = 
+                    `<b>${winnerTeamName}</b> 完成了 ${winnerScore} 次！<br>` +
+                    `<b>${loserTeamName}</b> 也完成了 ${loserScore} 次，非常厲害，下次再接再厲！`;
+            }
+            
+            resultModal.style.display = 'flex'; // 顯示彈出視窗
+        }
+
+        // --- 初始設定 ---
+        startButton.addEventListener('click', startGame);
+
+    </script>
 </body>
 </html>
