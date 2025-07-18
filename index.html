@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>亂數排列產生器</title>
+    <!-- CSS 樣式：讓網頁看起來更美觀 -->
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 80px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 20px 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 25px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #28a745;
+            min-height: 30px; /* 確保結果區域有固定高度 */
+        }
+        .error {
+            color: red; /* 錯誤訊息使用紅色 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>亂數排列產生器</h1>
+        <p>請輸入一個正整數（例如：5），然後點擊按鈕。</p>
+        <div>
+            <!-- 數字輸入框 -->
+            <label for="numberInput">從 1 到</label>
+            <input type="number" id="numberInput" value="5" min="1">
+            
+            <!-- 執行按鈕 -->
+            <button id="generateButton">產生亂數排列</button>
+        </div>
+        
+        <!-- 顯示結果的區域 -->
+        <div id="result"></div>
+    </div>
+
+    <!-- JavaScript 功能：處理網頁的互動邏輯 -->
+    <script>
+        // 1. 取得我們需要的網頁元素
+        const numberInput = document.getElementById('numberInput');
+        const generateButton = document.getElementById('generateButton');
+        const resultDiv = document.getElementById('result');
+
+        // 2. 當按鈕被點擊時，要執行的功能
+        generateButton.addEventListener('click', function() {
+            // 2.1 清除上一次的結果和錯誤樣式
+            resultDiv.textContent = '';
+            resultDiv.classList.remove('error');
+
+            // 2.2 從輸入框取得數字，並轉換成整數
+            const maxNumber = parseInt(numberInput.value, 10);
+
+            // 2.3 檢查輸入是否為有效的正整數
+            if (isNaN(maxNumber) || maxNumber <= 0) {
+                resultDiv.textContent = '請輸入一個大於 0 的有效數字！';
+                resultDiv.classList.add('error'); // 加入錯誤樣式
+                return; // 中斷執行
+            }
+
+            // 2.4 建立一個從 1 到 maxNumber 的數字陣列
+            // 例如 maxNumber 是 5，會產生 [1, 2, 3, 4, 5]
+            let numbers = [];
+            for (let i = 1; i <= maxNumber; i++) {
+                numbers.push(i);
+            }
+
+            // 2.5 執行「費雪-葉慈洗牌演算法 (Fisher-Yates Shuffle)」來打亂陣列順序
+            // 這是目前公認最公平的洗牌演算法
+            for (let i = numbers.length - 1; i > 0; i--) {
+                // 產生一個從 0 到 i (包含 i) 的隨機索引 j
+                const j = Math.floor(Math.random() * (i + 1));
+                // 交換索引 i 和 j 的元素位置
+                [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+            }
+
+            // 2.6 將打亂後的陣列轉換成用逗號和空格分隔的字串，並顯示在網頁上
+            resultDiv.textContent = numbers.join(', ');
+        });
+    </script>
+
+</body>
+</html>
