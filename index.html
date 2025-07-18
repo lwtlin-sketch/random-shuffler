@@ -3,128 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>順(二)小活動</title>
+    <title>順(二)小活動 - 亞伯拉罕的信心之旅</title>
     <style>
+        /* 4. 可愛元素：載入適合小朋友的字體 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=ZCOOL+KuaiLe&display=swap');
+
         /* 基本樣式 */
         body {
-            font-family: 'PingFang TC', 'Microsoft JhengHei', 'Helvetica Neue', Arial, sans-serif;
-            background-color: #fdfdfd;
+            font-family: 'Noto Sans TC', sans-serif;
+            /* 4. 亞伯拉罕故事背景 */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('https://img.freepik.com/free-vector/hand-drawn-mountain-landscape_23-2149171120.jpg?w=1380&t=st=1688625902~exp=1688626502~hmac=c31b99a68a5ed7972049e77242133486e0da8d3d9646b97f0a8c2ed82963174c');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: #333;
             text-align: center;
+            margin: 0;
+            padding: 0;
         }
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 20px auto;
             padding: 20px;
         }
-        /* 遊戲控制區樣式 */
+        h1 {
+            font-family: 'ZCOOL KuaiLe', cursive; /* 4. 可愛標題字體 */
+            font-size: 3em;
+            color: #5d4037; /* 棕色 */
+        }
+
+        /* 遊戲控制區 */
         .controls {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
+            gap: 15px;
         }
-        /* 1. 參加人數輸入框樣式 */
-        .input-group {
-            margin: 10px;
-        }
-        .input-group label {
-            font-size: 1.2em;
-            margin-right: 10px;
-        }
+        .input-group { margin: 5px; }
+        .input-group label { font-size: 1.1em; margin-right: 8px; }
         .input-group input[type="number"] {
-            width: 80px;
-            padding: 10px;
-            font-size: 1.2em;
-            text-align: center;
-            border: 2px solid #ccc;
-            border-radius: 5px;
+            width: 70px; padding: 8px; font-size: 1.1em;
+            text-align: center; border: 2px solid #a1887f; border-radius: 5px;
         }
-        #startButton {
-            padding: 12px 25px;
-            font-size: 1.2em;
-            color: white;
-            background-color: #5cb85c;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin: 10px;
+        .control-buttons button {
+            padding: 10px 20px; font-size: 1.1em; color: white;
+            border: none; border-radius: 8px; cursor: pointer;
+            transition: all 0.3s; margin: 0 5px;
         }
-        #startButton:hover {
-            background-color: #4cae4c;
-        }
+        #startButton { background-color: #43a047; } /* 綠色 */
+        #startButton:hover { background-color: #388e3c; }
+        /* 2. 暫停和結束按鈕樣式 */
+        #pauseButton { background-color: #fdd835; color: #333; } /* 黃色 */
+        #pauseButton:hover { background-color: #fbc02d; }
+        #endButton { background-color: #e53935; } /* 紅色 */
+        #endButton:hover { background-color: #c62828; }
         #timer {
-            font-size: 3em;
-            font-weight: bold;
-            color: #d9534f;
-            width: 100%;
-            margin-top: 15px;
+            font-size: 2.5em; font-weight: bold; color: #d84315;
+            width: 100%; margin-top: 10px;
         }
-        /* 遊戲區域樣式 */
+
+        /* 遊戲區域 */
         .game-area {
             display: flex;
             justify-content: space-around;
             align-items: flex-start;
+            gap: 20px;
         }
         .team-column {
-            padding: 20px;
-            border-radius: 10px;
-            width: 48%;
-            min-height: 300px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px; border-radius: 15px; width: 48%;
+            min-height: 350px; transition: all 0.3s ease;
         }
-        /* 3. 兩組顏色區分 */
         #team1-column {
-            background-color: #e7f3fe; /* 淡藍色 */
-            border: 2px solid #bce0fd;
+            background-color: rgba(231, 243, 254, 0.9); border: 3px dashed #007bff;
         }
         #team2-column {
-            background-color: #fff0f5; /* 淡粉色 */
-            border: 2px solid #f8c8dc;
+            background-color: rgba(255, 240, 245, 0.9); border: 3px dashed #e83e8c;
         }
-        #team1-column h2 { color: #007bff; /* 藍色 */ }
-        #team2-column h2 { color: #e83e8c; /* 粉紅色 */ }
-
-        .team-column h2 { font-size: 2em; }
-        .team-column .score { font-size: 1.2em; margin-bottom: 20px; }
-
-        .task-list {
-            list-style-type: none;
-            padding: 0;
-            text-align: left;
+        .team-column h2 {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 2.5em; display: flex; align-items: center; justify-content: center;
         }
+        /* 4. 可愛卡通頭像 */
+        .avatar { width: 50px; height: 50px; margin-right: 15px; }
+        #team1-column h2 { color: #007bff; }
+        #team2-column h2 { color: #e83e8c; }
+        .score { font-size: 1.4em; margin-bottom: 10px; font-weight: bold; }
+        /* 4. 可愛動畫：分數跳動 */
+        .score-pop { animation: pop 0.5s ease; }
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        /* 3. 暫時領先/落後顯示 */
+        .status-message {
+            font-size: 1.1em; font-weight: bold; min-height: 25px;
+            transition: all 0.3s;
+        }
+        .status-leading { color: #28a745; }
+        .status-lagging { color: #dc3545; }
+        .status-tie { color: #ffc107; }
+
+        .task-list { list-style-type: none; padding: 0; text-align: left; }
         .task-list li {
-            font-size: 2em; /* 亂數文字大小 */
-            font-weight: bold;
-            margin: 15px 0;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            font-size: 1.8em; font-weight: bold; margin: 10px 0; padding: 10px;
+            background-color: #fff; border-radius: 8px;
+            display: flex; align-items: center; justify-content: space-between;
             border: 1px solid #ddd;
         }
-        /* 2. 完成的項目樣式 */
         .task-list li.completed {
-            color: #aaa;
-            background-color: #f9f9f9;
-            text-decoration: line-through;
+            color: #aaa; background-color: #f2f2f2;
+            text-decoration: line-through; opacity: 0.7;
         }
         .task-list input[type="checkbox"] {
-            width: 28px;
-            height: 28px;
-            margin-left: 20px;
-            cursor: pointer;
-            flex-shrink: 0; /* 防止核取方塊被壓縮 */
+            width: 25px; height: 25px; margin-left: 15px; cursor: pointer; flex-shrink: 0;
         }
-        /* 遊戲結束彈出視窗 */
+        
+        /* 暫停遮罩 */
+        .pause-overlay {
+            display: none; position: fixed; z-index: 99;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            color: white; font-size: 3em;
+            align-items: center; justify-content: center;
+        }
+        
+        /* 結果彈窗 */
         .modal {
             display: none; position: fixed; z-index: 100;
             left: 0; top: 0; width: 100%; height: 100%;
@@ -132,50 +142,65 @@
             align-items: center; justify-content: center;
         }
         .modal-content {
-            background-color: #fff; padding: 40px; border-radius: 15px;
-            text-align: center; animation: fadeIn 0.5s;
+            background: white; padding: 40px; border-radius: 20px;
+            text-align: center; animation: fadeIn 0.5s; width: 80%; max-width: 500px;
         }
-        .modal-content h3 { font-size: 2.5em; }
-        .modal-content p { font-size: 1.5em; }
-        .animation { font-size: 5em; margin: 20px 0; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+        .modal-content h3 { font-size: 2.2em; }
+        .modal-content p { font-size: 1.3em; }
+        .animation { font-size: 4em; margin: 20px 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        
+        /* 5. 頁尾 */
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.8em;
+            color: #777;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>順(二)小活動</h1>
+        <h1>亞伯拉罕的信心之旅</h1>
 
         <div class="controls">
-            <!-- 1. 新增參加人數輸入框 -->
             <div class="input-group">
                 <label for="participantsInput">參加人數:</label>
                 <input type="number" id="participantsInput" value="5" min="2">
             </div>
-            <button id="startButton">開始活動</button>
+            <!-- 1. 可調整時間 -->
+            <div class="input-group">
+                <label for="timeInput">時間(分鐘):</label>
+                <input type="number" id="timeInput" value="5" min="1">
+            </div>
+            <div class="control-buttons">
+                <button id="startButton">開始</button>
+                <!-- 2. 暫停/結束按鈕 -->
+                <button id="pauseButton" style="display: none;">暫停</button>
+                <button id="endButton" style="display: none;">結束遊戲</button>
+            </div>
             <div id="timer">05:00</div>
         </div>
 
         <div class="game-area">
-            <!-- 組別一：順服神 -->
             <div class="team-column" id="team1-column">
-                <h2>順服神</h2>
-                <p class="score">完成次數: <span id="team1-score">0</span></p>
+                <h2><img src="https://api.iconify.design/emojione/old-man-light-skin-tone.svg" class="avatar">順服神</h2>
+                <p class="score">得分: <span id="team1-score">0</span></p>
+                <p class="status-message" id="team1-status"></p>
                 <ul class="task-list" id="team1-list"></ul>
             </div>
-            <!-- 組別二：順服人 -->
             <div class="team-column" id="team2-column">
-                <h2>順服人</h2>
-                <p class="score">完成次數: <span id="team2-score">0</span></p>
+                <h2><img src="https://api.iconify.design/emojione/boy-light-skin-tone.svg" class="avatar">順服人</h2>
+                <p class="score">得分: <span id="team2-score">0</span></p>
+                <p class="status-message" id="team2-status"></p>
                 <ul class="task-list" id="team2-list"></ul>
             </div>
         </div>
     </div>
 
-    <!-- 遊戲結束的彈出視窗 -->
+    <div id="pause-overlay" class="pause-overlay">遊戲暫停</div>
+
     <div id="result-modal" class="modal">
         <div class="modal-content">
             <h3 id="result-title"></h3>
@@ -184,74 +209,105 @@
         </div>
     </div>
 
-    <script>
-        // --- 遊戲設定 ---
-        const GAME_DURATION_SECONDS = 300; // 5分鐘
+    <!-- 5. 頁尾 -->
+    <footer>
+        宜蘭市召會2-2區 20250718 開發<br>
+        @謝明凱弟兄謝明郁姊妹開家
+    </footer>
 
-        // --- 取得網頁元素 ---
+    <script>
+        // --- 元素 ---
         const participantsInput = document.getElementById('participantsInput');
+        const timeInput = document.getElementById('timeInput');
         const startButton = document.getElementById('startButton');
+        const pauseButton = document.getElementById('pauseButton');
+        const endButton = document.getElementById('endButton');
         const timerDisplay = document.getElementById('timer');
         const team1ScoreDisplay = document.getElementById('team1-score');
         const team2ScoreDisplay = document.getElementById('team2-score');
         const team1List = document.getElementById('team1-list');
         const team2List = document.getElementById('team2-list');
+        const team1Status = document.getElementById('team1-status');
+        const team2Status = document.getElementById('team2-status');
         const resultModal = document.getElementById('result-modal');
         const resultTitle = document.getElementById('result-title');
         const resultAnimation = document.getElementById('result-animation');
         const resultMessage = document.getElementById('result-message');
+        const pauseOverlay = document.getElementById('pause-overlay');
         
-        // --- 遊戲狀態變數 ---
+        // --- 狀態 ---
         let timerInterval;
-        let timeLeft = GAME_DURATION_SECONDS;
+        let timeLeft;
         let scores = { team1: 0, team2: 0 };
         let gameActive = false;
-        let currentNumberRange = 5; // 預設值
+        let isPaused = false;
+        let currentNumberRange = 5;
+        let gameDuration = 300;
 
-        // --- 核心功能函式 ---
-
+        // --- 功能 ---
         function startGame() {
             if (gameActive) return;
 
-            // 1. 從輸入框獲取人數並驗證
+            // 1. 讀取人數和時間設定
             const num = parseInt(participantsInput.value, 10);
-            if (isNaN(num) || num < 2) {
-                alert('請輸入一個大於或等於 2 的有效數字！');
-                return;
-            }
+            const time = parseInt(timeInput.value, 10);
+            if (isNaN(num) || num < 2) { alert('參加人數必須是大於等於2的數字！'); return; }
+            if (isNaN(time) || time < 1) { alert('時間必須是大於等於1的分鐘數！'); return; }
             currentNumberRange = num;
-            gameActive = true;
-            participantsInput.disabled = true; // 遊戲開始後鎖定輸入框
+            gameDuration = time * 60;
+            timeLeft = gameDuration;
 
-            // 重設分數和列表
+            // 更新UI
+            gameActive = true;
+            isPaused = false;
+            participantsInput.disabled = true;
+            timeInput.disabled = true;
+            startButton.style.display = 'none';
+            pauseButton.style.display = 'inline-block';
+            endButton.style.display = 'inline-block';
+            pauseButton.textContent = '暫停';
+            
+            // 重置
             scores = { team1: 0, team2: 0 };
             team1ScoreDisplay.textContent = '0';
             team2ScoreDisplay.textContent = '0';
             team1List.innerHTML = '';
             team2List.innerHTML = '';
+            updateStatusMessages();
             resultModal.style.display = 'none';
 
-            // 產生第一組亂數
+            // 開始
             const initialNumbers = shuffleArray(createNumberArray(currentNumberRange));
             addNewTask('team1', initialNumbers);
             addNewTask('team2', initialNumbers);
-
-            startButton.style.display = 'none';
-            startTimer();
+            runTimer();
         }
 
-        function startTimer() {
-            timeLeft = GAME_DURATION_SECONDS;
-            updateTimerDisplay();
+        function runTimer() {
             timerInterval = setInterval(() => {
-                timeLeft--;
-                updateTimerDisplay();
-                if (timeLeft <= 0) {
-                    endGame();
+                if (!isPaused) {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    if (timeLeft <= 0) {
+                        endGame(true); // true表示時間到而結束
+                    }
                 }
             }, 1000);
         }
 
+        // 2. 暫停/繼續功能
+        function togglePause() {
+            if (!gameActive) return;
+            isPaused = !isPaused;
+            if (isPaused) {
+                pauseButton.textContent = '繼續';
+                pauseOverlay.style.display = 'flex';
+            } else {
+                pauseButton.textContent = '暫停';
+                pauseOverlay.style.display = 'none';
+            }
+        }
+        
         function updateTimerDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
@@ -259,9 +315,7 @@
         }
         
         function createNumberArray(max) {
-            const arr = [];
-            for (let i = 1; i <= max; i++) arr.push(i);
-            return arr;
+            return Array.from({length: max}, (_, i) => i + 1);
         }
 
         function shuffleArray(array) {
@@ -272,89 +326,113 @@
             return array;
         }
         
-        // 2. 修改後的函式：新增一個任務到列表中
         function addNewTask(teamId, numbers) {
             const listElement = document.getElementById(`${teamId}-list`);
-            
             const listItem = document.createElement('li');
             const textSpan = document.createElement('span');
-            textSpan.textContent = numbers.join(', ');
-
+            textSpan.textContent = numbers.join(' → '); // 用箭頭更像旅程
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.dataset.team = teamId;
             checkbox.addEventListener('change', handleCompletion);
-            
             listItem.appendChild(textSpan);
             listItem.appendChild(checkbox);
-            listElement.appendChild(listItem);
+            listElement.prepend(listItem); // 新任務加到最上面
         }
 
-        // 2. 新的處理函式：當一個任務被勾選完成時
         function handleCompletion(event) {
-            if (!gameActive) {
-                event.target.checked = false;
-                return;
+            if (!gameActive || isPaused) {
+                event.target.checked = false; return;
             }
-
             const checkbox = event.target;
             const teamId = checkbox.dataset.team;
-            const listItem = checkbox.parentElement;
-
-            // 將這個核取方塊鎖定，並將整行標示為完成
             checkbox.disabled = true;
-            listItem.classList.add('completed');
-
-            // 更新分數
+            checkbox.parentElement.classList.add('completed');
+            
+            // 更新分數並觸發動畫
             scores[teamId]++;
-            document.getElementById(`${teamId}-score`).textContent = scores[teamId];
+            const scoreDisplay = document.getElementById(`${teamId}-score`);
+            scoreDisplay.textContent = scores[teamId];
+            scoreDisplay.parentElement.classList.add('score-pop');
+            setTimeout(() => {
+                scoreDisplay.parentElement.classList.remove('score-pop');
+            }, 500);
 
-            // 為該隊伍產生下一個新任務
+            // 3. 更新領先/落後狀態
+            updateStatusMessages();
+
             const newNumbers = shuffleArray(createNumberArray(currentNumberRange));
             addNewTask(teamId, newNumbers);
         }
 
-        function endGame() {
-            gameActive = false;
-            clearInterval(timerInterval);
-            timerDisplay.textContent = '00:00';
-            startButton.style.display = 'block';
-            participantsInput.disabled = false; // 遊戲結束後解鎖輸入框
+        // 3. 更新領先狀態顯示
+        function updateStatusMessages() {
+            team1Status.textContent = '';
+            team2Status.textContent = '';
+            team1Status.className = 'status-message';
+            team2Status.className = 'status-message';
 
-            // 判斷贏家
-            let winner = '';
             if (scores.team1 > scores.team2) {
-                winner = '順服神';
+                team1Status.textContent = '暫時領先！🎉';
+                team1Status.classList.add('status-leading');
+                team2Status.textContent = '加油，快趕上！';
+                team2Status.classList.add('status-lagging');
             } else if (scores.team2 > scores.team1) {
-                winner = '順服人';
-            } else {
-                winner = '平手';
+                team2Status.textContent = '暫時領先！🎉';
+                team2Status.classList.add('status-leading');
+                team1Status.textContent = '加油，快趕上！';
+                team1Status.classList.add('status-lagging');
+            } else if (scores.team1 > 0) { // 分數相同且不為0
+                team1Status.textContent = '平手！';
+                team2Status.textContent = '平手！';
+                team1Status.classList.add('status-tie');
+                team2Status.classList.add('status-tie');
             }
-
-            // 顯示結果
-            if (winner === '平手') {
-                resultTitle.textContent = "平分秋色！";
-                resultAnimation.textContent = '🤝';
-                resultMessage.textContent = `兩組都完成了 ${scores.team1} 次！大家都好棒，繼續努力！`;
-            } else {
-                const winnerTeamName = winner;
-                const loserTeamName = (winner === '順服神') ? '順服人' : '順服神';
-                const winnerScore = (winner === '順服神') ? scores.team1 : scores.team2;
-                const loserScore = (winner === '順服神') ? scores.team2 : scores.team1;
-
-                resultTitle.textContent = `恭喜 ${winnerTeamName} 獲勝！`;
-                resultAnimation.textContent = '🏆🎉';
-                resultMessage.innerHTML = 
-                    `<b>${winnerTeamName}</b> 完成了 ${winnerScore} 次！<br>` +
-                    `<b>${loserTeamName}</b> 也完成了 ${loserScore} 次，非常厲害，下次再接再厲！`;
-            }
-            
-            resultModal.style.display = 'flex';
         }
 
-        // --- 初始設定 ---
-        startButton.addEventListener('click', startGame);
+        function endGame(isTimeUp) {
+            if (!gameActive) return;
+            gameActive = false;
+            clearInterval(timerInterval);
+            
+            // 顯示結果
+            let title, animation, message;
+            if (isTimeUp) {
+                resultAnimation.textContent = '🔔';
+                title = "時間到！";
+            }
+            
+            if (scores.team1 > scores.team2) {
+                title = "恭喜「順服神」隊獲勝！";
+                animation = '🏆';
+                message = `「順服神」隊成功登頂，完成了 ${scores.team1} 次！「順服人」隊也非常棒，完成了 ${scores.team2} 次！<br>記住，真正的順服是信靠神的帶領喔！`;
+            } else if (scores.team2 > scores.team1) {
+                title = "恭喜「順服人」隊獲勝！";
+                animation = '🏆';
+                message = `「順服人」隊成功登頂，完成了 ${scores.team2} 次！「順服神」隊也非常棒，完成了 ${scores.team1} 次！<br>大家都表現了很棒的團隊合作！`;
+            } else {
+                title = "平分秋色！";
+                animation = '🤝';
+                message = `兩隊都完成了 ${scores.team1} 次！這是一場信心的旅程，你們都展現了最棒的順服與合作！`;
+            }
+            resultTitle.textContent = title;
+            resultAnimation.innerHTML = animation;
+            resultMessage.innerHTML = message;
+            resultModal.style.display = 'flex';
 
+            // 重置UI
+            participantsInput.disabled = false;
+            timeInput.disabled = false;
+            startButton.style.display = 'inline-block';
+            pauseButton.style.display = 'none';
+            endButton.style.display = 'none';
+            pauseOverlay.style.display = 'none';
+        }
+
+        // --- 事件綁定 ---
+        startButton.addEventListener('click', startGame);
+        pauseButton.addEventListener('click', togglePause);
+        endButton.addEventListener('click', () => endGame(false)); // false表示手動結束
     </script>
 </body>
 </html>
