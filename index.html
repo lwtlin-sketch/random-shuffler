@@ -125,29 +125,27 @@
             text-decoration: line-through; opacity: 0.7;
         }
         
-        /* <<< --- 重點修改區域 START --- >>> */
         .task-list .complete-btn {
             padding: 8px 16px;
-            font-size: 0.8em; /* 相對父層(li)的字體大小 */
+            font-size: 0.8em;
             font-weight: bold;
-            font-family: 'Noto Sans TC', sans-serif; /* 確保按鈕字體正確 */
+            font-family: 'Noto Sans TC', sans-serif;
             color: white;
-            background-color: #28a745; /* 綠色 */
+            background-color: #28a745;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s;
-            flex-shrink: 0; /* 防止按鈕被擠壓變形 */
+            flex-shrink: 0;
             margin-left: 15px;
         }
         .task-list .complete-btn:hover {
-            background-color: #218838; /* 深一點的綠色 */
+            background-color: #218838;
         }
         .task-list .complete-btn:disabled {
-            background-color: #6c757d; /* 灰色 */
+            background-color: #6c757d;
             cursor: not-allowed;
         }
-        /* <<< --- 重點修改區域 END --- >>> */
         
         /* 結果彈窗 */
         .modal {
@@ -334,7 +332,6 @@
             return array;
         }
         
-        // <<< --- 重點修改區域 START --- >>>
         function addNewTask(teamId, numbers) {
             const listElement = document.getElementById(`${teamId}-list`);
             const listItem = document.createElement('li');
@@ -342,17 +339,15 @@
             const textSpan = document.createElement('span');
             textSpan.textContent = numbers.join(' → ');
 
-            // 1. 建立按鈕，而不是核取方塊
             const completeButton = document.createElement('button');
             completeButton.textContent = '完成';
-            completeButton.className = 'complete-btn'; // 加上class方便CSS選取
+            completeButton.className = 'complete-btn';
             completeButton.dataset.team = teamId;
 
-            // 2. 將事件監聽從 'change' 改為 'click'
             completeButton.addEventListener('click', handleCompletion);
             
             listItem.appendChild(textSpan);
-            listItem.appendChild(completeButton); // 將按鈕加入到列表項目中
+            listItem.appendChild(completeButton);
             listElement.prepend(listItem);
         }
 
@@ -360,11 +355,9 @@
             if (!gameActive || isPaused) {
                 return;
             }
-            // 3. 取得被點擊的按鈕
             const button = event.target;
             const teamId = button.dataset.team;
             
-            // 4. 鎖定按鈕並標示該行已完成
             button.disabled = true;
             button.parentElement.classList.add('completed');
             
@@ -380,7 +373,6 @@
             const newNumbers = shuffleArray(createNumberArray(currentNumberRange));
             addNewTask(teamId, newNumbers);
         }
-        // <<< --- 重點修改區域 END --- >>>
 
         function updateStatusMessages() {
             team1Status.textContent = '';
