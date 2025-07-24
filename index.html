@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 1. 修改網頁標題 -->
     <title>兒童排課程-順(二)主題-小遊戲</title>
     <style>
-        /* 2. 更換為支援所有中文字的可愛字體 */
         @import url('https://fonts.googleapis.com/css2?family=Cubic+11&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
 
@@ -28,7 +26,6 @@
             padding: 20px;
         }
         h1 {
-            /* 1 & 2. 使用新字體並更新標題 */
             font-family: 'Cubic 11', sans-serif;
             font-size: 2.8em;
             color: #5d4037;
@@ -75,7 +72,6 @@
             gap: 20px;
             transition: opacity 0.3s ease;
         }
-        /* 4. 遊戲暫停時，讓遊戲區變暗且無法點擊 */
         .game-area.paused {
             opacity: 0.5;
             pointer-events: none;
@@ -87,7 +83,6 @@
         #team1-column { background-color: rgba(231, 243, 254, 0.9); border: 3px dashed #007bff; }
         #team2-column { background-color: rgba(255, 240, 245, 0.9); border: 3px dashed #e83e8c; }
         .team-column h2 {
-            /* 2. 使用新字體 */
             font-family: 'Cubic 11', sans-serif;
             font-size: 2.2em; display: flex; align-items: center; justify-content: center;
         }
@@ -102,18 +97,16 @@
             100% { transform: scale(1); }
         }
         
-        /* 3. 提升暫時領先/落後顯示效果 */
         .status-message {
-            font-size: 1.5em; /* 加大字體 */
+            font-size: 1.5em;
             font-weight: bold;
             min-height: 40px;
             transition: all 0.3s;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* 增加陰影 */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
         .status-leading { color: #28a745; animation: pulse 1.5s infinite; }
         .status-lagging { color: #dc3545; }
         .status-tie { color: #ffc107; }
-        /* 3. 領先時的呼吸動畫 */
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
@@ -122,7 +115,7 @@
 
         .task-list { list-style-type: none; padding: 0; text-align: left; }
         .task-list li {
-            font-size: 1.8em; font-weight: bold; margin: 10px 0; padding: 10px;
+            font-size: 1.8em; font-weight: bold; margin: 10px 0; padding: 10px 15px;
             background-color: #fff; border-radius: 8px;
             display: flex; align-items: center; justify-content: space-between;
             border: 1px solid #ddd;
@@ -131,9 +124,30 @@
             color: #aaa; background-color: #f2f2f2;
             text-decoration: line-through; opacity: 0.7;
         }
-        .task-list input[type="checkbox"] {
-            width: 25px; height: 25px; margin-left: 15px; cursor: pointer; flex-shrink: 0;
+        
+        /* <<< --- 重點修改區域 START --- >>> */
+        .task-list .complete-btn {
+            padding: 8px 16px;
+            font-size: 0.8em; /* 相對父層(li)的字體大小 */
+            font-weight: bold;
+            font-family: 'Noto Sans TC', sans-serif; /* 確保按鈕字體正確 */
+            color: white;
+            background-color: #28a745; /* 綠色 */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            flex-shrink: 0; /* 防止按鈕被擠壓變形 */
+            margin-left: 15px;
         }
+        .task-list .complete-btn:hover {
+            background-color: #218838; /* 深一點的綠色 */
+        }
+        .task-list .complete-btn:disabled {
+            background-color: #6c757d; /* 灰色 */
+            cursor: not-allowed;
+        }
+        /* <<< --- 重點修改區域 END --- >>> */
         
         /* 結果彈窗 */
         .modal {
@@ -149,7 +163,6 @@
         .modal-content h3 { font-size: 2.2em; font-family: 'Cubic 11', sans-serif; }
         .modal-content p { font-size: 1.3em; line-height: 1.6; }
         .animation { font-size: 4em; margin: 20px 0; }
-        /* 5. 重新開始按鈕 */
         #restartButton {
             padding: 12px 25px; font-size: 1.2em; color: white;
             border: none; border-radius: 8px; cursor: pointer;
@@ -165,8 +178,7 @@
 <body>
 
     <div class="container">
-        <!-- 1. 修改 H1 標題 -->
-        <h1>兒童排課程-順(二)主題-小遊戲<br>順從神的榜樣-亞伯拉罕獻以撒</h1>
+        <h1>兒童排課程-順(二)主題-小遊戲<br>亞伯拉罕的信心之旅</h1>
 
         <div class="controls">
             <div class="input-group">
@@ -193,7 +205,7 @@
                 <ul class="task-list" id="team1-list"></ul>
             </div>
             <div class="team-column" id="team2-column">
-                <h2><img src="https://api.iconify.design/emojione/boy-light-skin-tone.svg" class="avatar">服從人</h2>
+                <h2><img src="https://api.iconify.design/emojione/boy-light-skin-tone.svg" class="avatar">順服人</h2>
                 <p class="score">得分: <span id="team2-score">0</span></p>
                 <p class="status-message" id="team2-status"></p>
                 <ul class="task-list" id="team2-list"></ul>
@@ -216,7 +228,7 @@
     </footer>
 
     <script>
-        // --- 元素 (已修正，包含所有需要的元素) ---
+        // --- 元素 ---
         const participantsInput = document.getElementById('participantsInput');
         const timeInput = document.getElementById('timeInput');
         const startButton = document.getElementById('startButton');
@@ -322,28 +334,39 @@
             return array;
         }
         
+        // <<< --- 重點修改區域 START --- >>>
         function addNewTask(teamId, numbers) {
             const listElement = document.getElementById(`${teamId}-list`);
             const listItem = document.createElement('li');
+            
             const textSpan = document.createElement('span');
             textSpan.textContent = numbers.join(' → ');
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.dataset.team = teamId;
-            checkbox.addEventListener('change', handleCompletion);
+
+            // 1. 建立按鈕，而不是核取方塊
+            const completeButton = document.createElement('button');
+            completeButton.textContent = '完成';
+            completeButton.className = 'complete-btn'; // 加上class方便CSS選取
+            completeButton.dataset.team = teamId;
+
+            // 2. 將事件監聽從 'change' 改為 'click'
+            completeButton.addEventListener('click', handleCompletion);
+            
             listItem.appendChild(textSpan);
-            listItem.appendChild(checkbox);
+            listItem.appendChild(completeButton); // 將按鈕加入到列表項目中
             listElement.prepend(listItem);
         }
 
         function handleCompletion(event) {
             if (!gameActive || isPaused) {
-                event.target.checked = false; return;
+                return;
             }
-            const checkbox = event.target;
-            const teamId = checkbox.dataset.team;
-            checkbox.disabled = true;
-            checkbox.parentElement.classList.add('completed');
+            // 3. 取得被點擊的按鈕
+            const button = event.target;
+            const teamId = button.dataset.team;
+            
+            // 4. 鎖定按鈕並標示該行已完成
+            button.disabled = true;
+            button.parentElement.classList.add('completed');
             
             scores[teamId]++;
             const scoreDisplay = document.getElementById(`${teamId}-score`);
@@ -357,6 +380,7 @@
             const newNumbers = shuffleArray(createNumberArray(currentNumberRange));
             addNewTask(teamId, newNumbers);
         }
+        // <<< --- 重點修改區域 END --- >>>
 
         function updateStatusMessages() {
             team1Status.textContent = '';
@@ -393,12 +417,12 @@
                 title = "恭喜「順服神」隊獲勝！";
                 animation = '🏆';
                 message = `<b>「順服神」隊</b>成功登頂，完成了 ${scores.team1} 次！<br><br>` + 
-                          `<b>「服從人」隊</b>也非常棒，完成了 ${scores.team2} 次！<br><br>` + 
+                          `<b>「順服人」隊</b>也非常棒，完成了 ${scores.team2} 次！<br><br>` + 
                           `記住，真正的順服是信靠神的帶領喔！`;
             } else if (scores.team2 > scores.team1) {
-                title = "恭喜「服從人」隊獲勝！";
+                title = "恭喜「順服人」隊獲勝！";
                 animation = '🏆';
-                message = `<b>「服從人」隊</b>成功登頂，完成了 ${scores.team2} 次！<br><br>` + 
+                message = `<b>「順服人」隊</b>成功登頂，完成了 ${scores.team2} 次！<br><br>` + 
                           `<b>「順服神」隊</b>也非常棒，完成了 ${scores.team1} 次！<br><br>` +
                           `大家都表現了很棒的團隊合作！`;
             } else {
